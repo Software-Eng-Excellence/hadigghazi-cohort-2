@@ -2,6 +2,8 @@
 
 A TypeScript utility for parsing **CSV**, **JSON**, and **XML** files with built-in system logging using Winston. It supports reading and writing data with error handling, and comes with unit tests.
 
+![CI/CD Pipeline](https://github.com/Software-Eng-Excellence/hadigghazi-cohort-2/actions/workflows/ci.yml/badge.svg)
+
 ---
 
 ## 🧩 Features
