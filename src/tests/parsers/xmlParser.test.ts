@@ -25,8 +25,17 @@ describe("XML Parser", () => {
   })
 
   afterEach(() => {
-    try { fs.unlinkSync(dummyFile) } catch {}
-    try { fs.unlinkSync(emptyFile) } catch {}
+  try {
+    fs.unlinkSync(dummyFile)
+  } catch {
+  // ignore error
+  }
+
+  try {
+    fs.unlinkSync(emptyFile)
+  } catch {
+  // ignore error
+  }
   })
 
   it("should correctly parse XML data", async () => {
