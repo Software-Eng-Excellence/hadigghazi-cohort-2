@@ -1,0 +1,63 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Run tests with coverage
+        run: npm test -- --coverage
+
+      - name: Check for 75%+ coverage
+        run: |
+          COVERAGE=$(npx jest --coverage --coverageReporters=text-summary | grep "All files" | awk '{print $3}' | sed 's/%//')
+          if (( $(echo "$COVERAGE < 75" | bc -l) )); then
+            echo "❌ Coverage below 75% ($COVERAGE%)"
+            exit 1
+          else
+            echo "✅ Coverage is $COVERAGE%"
+          fi
+
+      - name: Build project
+        run: npm run build
+
+  deploy:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' }}
+
+    steps:
+      - name: Log start of fake deployment
+        run: echo "🚀 Starting deployment..."
+
+      - name: Fake deploy to sandbox
+        run: echo "✅ Deployed to SANDBOX environment"
+
+      - name: Fake deploy to staging
+        run: echo "✅ Deployed to STAGING environment"
+
+      - name: Fake deploy to production
+        run: echo "✅ Deployed to PRODUCTION environment"
+
+      - name: Log success
+        run: echo "🎉 CI/CD pipeline complete."
