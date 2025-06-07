@@ -58,5 +58,3 @@ Test cases cover:
 * Reading/writing for valid and invalid CSV, JSON, XML
 * Empty file handling
 * Edge case rows and columns
-
-![Test Coverage Report](./test-success.png)
