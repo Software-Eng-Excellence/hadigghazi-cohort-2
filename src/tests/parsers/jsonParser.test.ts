@@ -15,13 +15,14 @@ describe("JSON Parser", () => {
     ]
   }
 
-  beforeAll(() => {
+  beforeEach(() => {
     fs.writeFileSync(dummyFile, JSON.stringify(sampleData, null, 2), "utf-8")
     fs.writeFileSync(emptyFile, "{}", "utf-8")
   })
 
   afterEach(() => {
-    fs.writeFileSync(dummyFile, JSON.stringify(sampleData, null, 2), "utf-8")
+    try { fs.unlinkSync(dummyFile) } catch {}
+    try { fs.unlinkSync(emptyFile) } catch {}
   })
 
   it("should correctly parse JSON data", async () => {

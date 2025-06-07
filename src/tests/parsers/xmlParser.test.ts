@@ -19,13 +19,14 @@ describe("XML Parser", () => {
 
   const emptyXMLContent = `<root></root>`
 
-  beforeAll(async () => {
+  beforeEach(async () => {
     await writeXMLFile(dummyFile, sampleObject)
     fs.writeFileSync(emptyFile, emptyXMLContent, "utf-8")
   })
 
-  afterEach(async () => {
-    await writeXMLFile(dummyFile, sampleObject)
+  afterEach(() => {
+    try { fs.unlinkSync(dummyFile) } catch {}
+    try { fs.unlinkSync(emptyFile) } catch {}
   })
 
   it("should correctly parse XML data", async () => {

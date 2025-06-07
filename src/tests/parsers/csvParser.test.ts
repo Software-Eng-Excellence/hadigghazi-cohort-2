@@ -14,13 +14,14 @@ describe("Csv Parser", () => {
     ["Ali", "28", "North", "Male"]
   ]
 
-  beforeAll(() => {
+  beforeEach(() => {
     fs.writeFileSync(dummyFile, initialData.map(row => row.join(",")).join("\n"), "utf-8")
     fs.writeFileSync(emptyFile, "", "utf-8")
   })
 
   afterEach(() => {
-    fs.writeFileSync(dummyFile, initialData.map(row => row.join(",")).join("\n"), "utf-8")
+    try { fs.unlinkSync(dummyFile) } catch {}
+    try { fs.unlinkSync(emptyFile) } catch {}
   })
 
   it("should correctly parse CSV data (excluding header)", async () => {
