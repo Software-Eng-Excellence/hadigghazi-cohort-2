@@ -1,6 +1,6 @@
 # SE2 Parser & Logger Utility
 
-A TypeScript utility for parsing **CSV**, **JSON**, and **XML** files with built-in system logging using Winston. It supports reading and writing data with error handling, and comes with unit tests.
+A TypeScript utility for parsing **CSV**, **JSON**, and **XML** files into structured model objects using **Builder** and **Mapper** patterns. It includes Winston-based logging and a full test suite with Jest.
 
 ![CI/CD Pipeline](https://github.com/Software-Eng-Excellence/hadigghazi-cohort-2/actions/workflows/ci.yml/badge.svg)
 
@@ -8,15 +8,15 @@ A TypeScript utility for parsing **CSV**, **JSON**, and **XML** files with built
 
 ## 🧩 Features
 
-- 📚 **JSON Parser**: Read/write `.json` files easily
-- 🤖 **XML Parser**: Read/write `.xml` files with attribute support
-- 🍰 **CSV Parser**: Read/write `.csv` files with column validation
-- 📦 **Winston Logger**: Logs to console and files (`logs/`)
-- 🧪 **Jest Testing**: Tests for all parsers and edge cases
+- **JSON / XML / CSV Parsers**: Unified interface to read multiple formats
+- **Builder Pattern**: For clean and safe construction of `Item` subclasses like `Book`, `Toy`, and `Cake`
+- **Mapper Classes**: Map raw file inputs to proper model instances
+- **Winston Logger**: Logs to both console and rotating files under `/logs`
+- **Jest Testing**: 90%+ coverage on models, mappers, parsers, and logger
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### 1. Install dependencies
 
@@ -36,25 +36,20 @@ npm run dev
 npm start
 ```
 
----
-
-## 🔧 Example Usage (`src/index.ts`)
-
-This script will run when using one of the commands above and it will:
-
-* Load `book.json`, `toy.xml`, and `cake.csv` from the `data/` folder
-* Log their parsed contents
+This will execute `src/index.ts`, which loads data from `data/` and logs the parsed outputs.
 
 ---
 
 ## 🧪 Run Tests
 
 ```bash
-npm test
+npm run test
 ```
 
-Test cases cover:
+Test suite includes:
 
-* Reading/writing for valid and invalid CSV, JSON, XML
-* Empty file handling
-* Edge case rows and columns
+* Mapper behavior across all formats
+* Builder defaults and edge cases
+* Logger creation and output levels
+* Parser validation for bad/missing data
+* Full error handling and fallback behavior
