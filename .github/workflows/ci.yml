@@ -41,23 +41,37 @@ jobs:
       - name: Build project
         run: npm run build
 
-  deploy:
+  release:
     needs: build-and-test
     runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: github.ref == 'refs/heads/main'
 
     steps:
-      - name: Log start of fake deployment
-        run: echo "🚀 Starting deployment..."
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Fake deploy to sandbox
-        run: echo "✅ Deployed to SANDBOX environment"
+      - name: Zip build directory
+        run: zip -r build.zip build
 
-      - name: Fake deploy to staging
-        run: echo "✅ Deployed to STAGING environment"
+      - name: Bump version and create tag
+        id: version
+        uses: phips28/gh-action-bump-version@master
+        with:
+          tag-prefix: 'v'
+          major-wording: 'MAJOR'
+          minor-wording: 'minor'
+          patch-wording: 'patch,fix'
+          commit-message: 'CI: bump version to {{version}} [skip ci]'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fake deploy to production
-        run: echo "✅ Deployed to PRODUCTION environment"
-
-      - name: Log success
-        run: echo "🎉 CI/CD pipeline complete."
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.newTag }}
+          name: Release ${{ steps.version.outputs.newTag }}
+          files: build.zip
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
