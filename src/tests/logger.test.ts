@@ -1,16 +1,26 @@
 import logger from '../util/logger'
 
-describe('Logger', () => {
-  it('should have .info and .error methods', () => {
-    expect(typeof logger.info).toBe('function')
-    expect(typeof logger.error).toBe('function')
+describe('Logger Utility', () => {
+  it('should have all standard log levels', () => {
+    expect(logger).toHaveProperty('info')
+    expect(logger).toHaveProperty('warn')
+    expect(logger).toHaveProperty('error')
+    expect(logger).toHaveProperty('debug')
   })
 
-  it('should log info without error', () => {
-    expect(() => logger.info('Test info')).not.toThrow()
+  it('should log an info message without throwing', () => {
+    expect(() => logger.info('Test info log')).not.toThrow()
   })
 
-  it('should log error without error', () => {
-    expect(() => logger.error('Test error')).not.toThrow()
+  it('should log a warning message without throwing', () => {
+    expect(() => logger.warn('Test warn log')).not.toThrow()
+  })
+
+  it('should log an error message without throwing', () => {
+    expect(() => logger.error('Test error log')).not.toThrow()
+  })
+
+  it('should log a debug message without throwing', () => {
+    expect(() => logger.debug('Test debug log')).not.toThrow()
   })
 })
